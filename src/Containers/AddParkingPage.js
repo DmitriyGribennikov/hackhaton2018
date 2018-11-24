@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ParkingView from '../Components/ParkingView';
+import AddParkingView from '../Components/AddParkingView';
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import {
@@ -20,4 +20,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     , dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ParkingView))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(AddParkingView))

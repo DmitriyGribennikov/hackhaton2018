@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import HomePage from './Containers/HomePage';
 import ParkingsPage from './Containers/ParkingsPage';
 import ParkingPage from './Containers/ParkingPage';
+import AddParkingPage from './Containers/AddParkingPage';
+import AnalyticsPage from './Containers/AnalyticsPage';
 import PropTypes from 'prop-types'
 import NavBar from './Components/NavBar';
 import Grid from '@material-ui/core/Grid';
@@ -23,8 +25,26 @@ const theme = createMuiTheme({
             main: '#ec407a',
         },
     },
+    typography: {
+        useNextVariants: true,
+    },
 });
 
+const tabs = [
+    {
+        title: 'Add New Parking',
+        url: '/parking/add',
+
+    },
+    {
+        title: 'My Parkings',
+        url: '/parkings',
+    },
+    {
+        title: 'Analytics',
+        url: '/analytics',
+    }
+];
 
 
 const Root = ({ store }) => (
@@ -33,13 +53,15 @@ const Root = ({ store }) => (
             <Router>
                 <Grid container spacing={0}>
                     <Grid item xs={2}>
-                        <SideMenu />
+                        <SideMenu tabs={tabs} />
                     </Grid>
                     <Grid item xs={10}>
-                        <NavBar />
+                        <NavBar tabs={tabs} />
                         <Route exact path="/" component={HomePage}/>
-                        <Route path="/parkings/" component={ParkingsPage} />
-                        <Route path="/parkings/:id" component={ParkingPage} />
+                        <Route  path="/parkings/" component={ParkingsPage} />
+                        <Route exact path="/parking/:id" component={ParkingPage} />
+                        <Route exact path="/parking/add" component={AddParkingPage} />
+                        <Route path="/analytics/" component={AnalyticsPage} />
                     </Grid>
                 </Grid>
             </Router>

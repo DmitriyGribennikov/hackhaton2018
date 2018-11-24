@@ -4,13 +4,14 @@ import { withStyles } from '@material-ui/core/styles';
 import { withRouter} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
-import classnames from 'classnames';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 
 
 const styles = theme => ({
-    root: {
-        width: '100%',
-    },
     menuContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -24,62 +25,47 @@ const styles = theme => ({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    tabPanel: {
-        height: '50px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-
+    tabItemText: {
+        fontWeight: 500,
+        color: 'red'
     },
     link: {
         textDecoration: 'none',
-        color: 'black'
+        color: 'black',
+        marginBottom: '5px',
+        marginTop: '5px'
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
-    },
-    selected: {
-        color: 'green'
-
+        color: ((theme) => console.log(theme))(theme)
     }
 });
-
-const tabs = [
-    {
-        title: 'Add New Parking',
-        url: '/parking/add',
-
-    },
-    {
-        title: 'My Parkings',
-        url: '/parkings',
-    },
-    {
-        title: 'Analytics',
-        url: '/analytics',
-
-    },
-];
 
 class SideMenu extends React.Component {
 
     render() {
-        const { classes: { menuContainer, projectLogo, tabPanel, selected, link }, location: { pathname }} = this.props;
+        const { classes: { menuContainer, projectLogo, link, tabItemText }, location: { pathname }, tabs} = this.props;
+
         return (
             <Paper className={menuContainer}>
-                <Paper className={projectLogo} >PARKOMAT</Paper>
+                <Paper className={projectLogo} >
+                    <Typography variant="h4" gutterBottom>
+                        PARKOMAT
+                    </Typography>
+                </Paper>
+                <List component="nav">
                 {
                     tabs.map(tab => {
-                        const className = classnames({
-                            [tabPanel]: true,
-                            [selected]: pathname === tab.url
-                        });
-                        return <Link className={link}  key={tab.title} to={tab.url}>
-                            <Paper className={ className } >{tab.title}</Paper>
+                        return <Link className={link} key={tab.title} to={tab.url}>
+                            <ListItem button selected={pathname === tab.url} >
+                               <ListItemText className={tabItemText} primary={tab.title} />
+                            </ListItem>
+                            <Divider />
                         </Link>
                     })
                 }
+                </List>
             </Paper>
         );
     }
