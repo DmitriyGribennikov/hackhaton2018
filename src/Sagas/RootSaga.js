@@ -1,12 +1,12 @@
-import { takeLatest } from 'redux-saga';
+import { takeEvery } from 'redux-saga/effects';
 
 import {
-    USER_FETCH_REQUESTED
+    PARKING_FETCH_REQUESTED
 } from '../Constants/Constants';
 import {
     fetchParkings
 } from './ParkingSagas'
 
 export function* RootSaga(action) {
-    yield takeLatest(USER_FETCH_REQUESTED, fetchParkings);
+    yield takeEvery(PARKING_FETCH_REQUESTED, fetchParkings);
 }

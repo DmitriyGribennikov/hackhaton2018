@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Typography from '@material-ui/core/Typography';
+import { withRouter} from 'react-router-dom';
+import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames';
 
 
 const styles = theme => ({
@@ -16,56 +15,72 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
-        height: window.innerHeight - 64 + 'px'
+        height: window.innerHeight + 'px'
     },
-    subTabContainer: {
+    projectLogo: {
+        fontSize: '20px',
+        height: '65px',
         display: 'flex',
-        flexDirection: 'column',
-        marginLeft: '15px'
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    tabPanel: {
+        height: '50px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    link: {
+        textDecoration: 'none',
+        color: 'black'
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
     },
+    selected: {
+        color: 'green'
+
+    }
 });
+
+const tabs = [
+    {
+        title: 'Add New Parking',
+        url: '/parking/add',
+
+    },
+    {
+        title: 'My Parkings',
+        url: '/parkings',
+    },
+    {
+        title: 'Analytics',
+        url: '/analytics',
+
+    },
+];
 
 class SideMenu extends React.Component {
 
-    state = {
-        expanded: null,
-    };
-
-    handleChange = panel => (event, expanded) => {
-        this.setState({
-            expanded: expanded ? panel : false,
-        });
-    };
-
     render() {
-        const { classes } = this.props;
-        const { expanded } = this.state;
+        const { classes: { menuContainer, projectLogo, tabPanel, selected, link }, location: { pathname }} = this.props;
         return (
-            <div className={classes.menuContainer}>
-                { this.props.tabs.map(tab => {
-                        return <ExpansionPanel  key={tab.title} expanded={expanded === tab.title} onChange={this.handleChange(tab.title)}  >
-                            <ExpansionPanelSummary>
-                                <Typography className={classes.heading}>{tab.title}</Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails className={classes.subTabContainer}>
-                                {
-                                    tab.subTabs.map( subTab => <div key={subTab.title}>
-                                        <Link to={subTab.path}>
-                                            <Typography >
-                                                { subTab.title }
-                                            </Typography>
-                                        </Link>
-                                    </div>)
-                                }
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
+            <Paper className={menuContainer}>
+                <Paper className={projectLogo} >PARKOMAT</Paper>
+                {
+                    tabs.map(tab => {
+                        const className = classnames({
+                            [tabPanel]: true,
+                            [selected]: pathname === tab.url
+                        });
+                        return <Link className={link}  key={tab.title} to={tab.url}>
+                            <Paper className={ className } >{tab.title}</Paper>
+                        </Link>
                     })
                 }
-            </div>
+            </Paper>
         );
     }
 }
@@ -73,6 +88,6 @@ SideMenu.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SideMenu);
+export default withStyles(styles)(withRouter(SideMenu));
 
 

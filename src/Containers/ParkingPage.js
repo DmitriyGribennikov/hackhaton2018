@@ -6,7 +6,8 @@ import {
     PARKING_FETCH_REQUESTED
 } from '../Constants/Constants';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps )=> {
+    console.log(ownProps)
     return {
         parkings: state.parkingsReducer.entities.parkings,
         parkingIds: state.parkingsReducer.result.parkings,
@@ -17,7 +18,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
     {
         fetchParkings: () =>  dispatch({type: PARKING_FETCH_REQUESTED})
     }
-, dispatch);
+    , dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ParkingsView))

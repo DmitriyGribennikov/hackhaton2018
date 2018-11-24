@@ -1,13 +1,14 @@
 import {
+    PARKING_FETCH_REQUESTED,
     PARKING_FETCH_SUCCEEDED
 } from '../Constants/Constants';
 
 import { normalize, schema } from 'normalizr';
 
-const session = new schema.Entity('sessions');
+const cars = new schema.Entity('actualCars');
 
 const parking = new schema.Entity('parkings', {
-    sessions: [session],
+    cars: [cars],
 });
 
 const resultSchema = {
@@ -17,21 +18,33 @@ const resultSchema = {
 
 
 const setData = (state, data) => {
-    const foo = normalize({ parkings: data }, resultSchema);
-    return foo;
+    return normalize({ parkings: data }, resultSchema);
 };
 
 const getInitialState = () => {
     return {
-        entities: {},
-        result: {}
+        entities: {
+            parkings: []
+        },
+        result: {
+            parkings: []
+        },
     };
 };
 
 const parkingsReducer = (state = getInitialState(), {type, payload}) => {
     switch (type) {
+        case PARKING_FETCH_REQUESTED:
+            return {
+                ...state,
+                isLoading: true
+            };
         case PARKING_FETCH_SUCCEEDED:
-            return {...state, ...setData(state, payload.data) };
+            return {
+                ...state,
+                ...setData(state, payload.data),
+                isLoading: false
+            };
         default:
             return state;
     }
