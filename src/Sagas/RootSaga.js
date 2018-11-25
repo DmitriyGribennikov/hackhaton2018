@@ -1,18 +1,19 @@
-import { takeEvery } from 'redux-saga/effects';
+import {takeEvery} from 'redux-saga/effects';
 
 import {
     PARKING_FETCH_REQUESTED,
-    SESSIONS_FETCH_REQUESTED
+    ANALYTICS_PAGE_FETCH_REQUESTED
 } from '../Constants/Constants';
 import {
     fetchParkings,
 } from './ParkingSagas'
 import {
     fetchSessions,
-} from './SessionSagas'
+} from './SessionSagas';
+
 
 export function* RootSaga(action) {
     yield takeEvery(PARKING_FETCH_REQUESTED, fetchParkings);
-    yield takeEvery(SESSIONS_FETCH_REQUESTED, fetchSessions);
-
+    yield takeEvery(ANALYTICS_PAGE_FETCH_REQUESTED, fetchParkings);
+    yield takeEvery(ANALYTICS_PAGE_FETCH_REQUESTED, fetchSessions);
 }

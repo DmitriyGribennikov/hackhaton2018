@@ -5,20 +5,20 @@ import {
 
 import { normalize, schema } from 'normalizr';
 
-const cars = new schema.Entity('actualCars');
+const cars = new schema.Entity('cars');
 
-const parking = new schema.Entity('parkings', {
+const session = new schema.Entity('sessions', {
     cars: [cars],
 });
 
 const resultSchema = {
-    parkings: [parking]
+    sessions: [session]
 };
 
 
 
 const setData = (state, data) => {
-    return normalize({ parkings: data }, resultSchema);
+    return normalize({ sessions: data }, resultSchema);
 };
 
 const getInitialState = () => {
@@ -32,7 +32,7 @@ const getInitialState = () => {
     };
 };
 
-const parkingsReducer = (state = getInitialState(), {type, payload}) => {
+const sessionsReducer = (state = getInitialState(), {type, payload}) => {
     switch (type) {
         case SESSIONS_FETCH_REQUESTED:
             return {
@@ -50,4 +50,4 @@ const parkingsReducer = (state = getInitialState(), {type, payload}) => {
     }
 }
 
-export default parkingsReducer;
+export default sessionsReducer;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -20,47 +20,49 @@ const styles = (theme) => ({
     },
 });
 
-function SimpleCard(props) {
-    const { classes } = props;
-    const monthIncome = 153250;
-    return (
-        <Card className={classes.card}>
-            <CardContent >
-                <Grid
-                    container
-                    spacing={0}
-                    className={classes.root}
-                    direction='row'
-                    justify='center'
-                >
-                    <Grid item xs={4}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Month Income
-                        </Typography>
-                        <Typography className={[classes.dashboardDigits,classes.income ].join(' ')} color="textSecondary" gutterBottom>
-                            {monthIncome.toLocaleString()} $
-                        </Typography>
+class SimpleCard extends Component {
+    render() {
+        const {classes, availabilityInfo: {totalPlaces, availablePlaces, filledPercentage}} = this.props;
+        return (
+            <Card className={classes.card}>
+                <CardContent>
+                    <Grid
+                        container
+                        spacing={0}
+                        className={classes.root}
+                        direction='row'
+                        justify='center'
+                    >
+                        <Grid item xs={4}>
+                            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                Month Income
+                            </Typography>
+                            <Typography className={[classes.dashboardDigits, classes.income].join(' ')}
+                                        color="textSecondary" gutterBottom>
+                                {this.props.income.toLocaleString()} UAH
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                Taken / Total Parking Places
+                            </Typography>
+                            <Typography className={classes.dashboardDigits} color="textSecondary" gutterBottom>
+                                { totalPlaces - availablePlaces} / {totalPlaces}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                Parkings Loaded
+                            </Typography>
+                            <Typography className={classes.dashboardDigits} color="textSecondary" gutterBottom>
+                                {filledPercentage} %
+                            </Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={4}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Taken / Total Parking Places
-                        </Typography>
-                        <Typography className={classes.dashboardDigits} color="textSecondary" gutterBottom>
-                            11/33
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Parkings Loaded
-                        </Typography>
-                        <Typography className={classes.dashboardDigits} color="textSecondary" gutterBottom>
-                            75%
-                        </Typography>
-                    </Grid>
-                </Grid>
-            </CardContent>
-        </Card>
-    );
+                </CardContent>
+            </Card>
+        );
+    }
 }
 
 SimpleCard.propTypes = {

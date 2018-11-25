@@ -22,7 +22,7 @@ const styles = theme => ({
 class AnalyticsView extends Component {
 
     componentDidMount() {
-        this.props.fetchParkings()
+        this.props.fetchSessions()
     }
 
 
@@ -38,10 +38,13 @@ class AnalyticsView extends Component {
 
         >
             <Grid item xs={11}>
-                <MainInfo />
+                <MainInfo
+                    income={this.props.income}
+                    availabilityInfo={this.props.availabilityInfo}
+                />
             </Grid>
             <Grid item xs={11} >
-                <img className={classes.image} src="analytics.jpg"/>
+                <img className={classes.image} alt='analytics.jpg' src="analytics.jpg"/>
             </Grid>
         </Grid>
     }
