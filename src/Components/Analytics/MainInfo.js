@@ -18,11 +18,25 @@ const styles = (theme) => ({
     dashboardDigits: {
         fontSize: 30,
     },
+    green: {
+        color: 'green'
+    },
+    orange: {
+        color: 'orange'
+    },
+    red: {
+        color: 'red'
+    }
 });
 
 class SimpleCard extends Component {
     render() {
         const {classes, availabilityInfo: {totalPlaces, availablePlaces, filledPercentage}} = this.props;
+        const className = filledPercentage  >= 0 && filledPercentage < 70
+            ? classes.green
+            :  filledPercentage  >= 70 && filledPercentage < 90
+                ? classes.orange
+                : classes.red;
         return (
             <Card className={classes.card}>
                 <CardContent>
@@ -47,7 +61,7 @@ class SimpleCard extends Component {
                                 Taken / Total Parking Places
                             </Typography>
                             <Typography className={classes.dashboardDigits} color="textSecondary" gutterBottom>
-                                { totalPlaces - availablePlaces} / {totalPlaces}
+                                <span className={className}>{ totalPlaces - availablePlaces} </span> / {totalPlaces}
                             </Typography>
                         </Grid>
                         <Grid item xs={4}>
@@ -55,7 +69,7 @@ class SimpleCard extends Component {
                                 Parkings Loaded
                             </Typography>
                             <Typography className={classes.dashboardDigits} color="textSecondary" gutterBottom>
-                                {filledPercentage} %
+                                <span className={className}>{filledPercentage}</span> %
                             </Typography>
                         </Grid>
                     </Grid>

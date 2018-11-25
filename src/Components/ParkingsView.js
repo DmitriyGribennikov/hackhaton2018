@@ -8,6 +8,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from "@material-ui/core/Typography/Typography";
+import { getAvailablePlacesForParking } from '../Utils';
 
 
 const styles = theme => ({
@@ -51,13 +53,11 @@ class ParkingsPage extends Component {
     };
 
     renderParking = (parking) => {
-        const { classes } = this.props;
-        const availablePlaces = parking.places - parking.actualCars.length;
-        const percent = parking.places / availablePlaces;
-        const availablePercentage = 100 / percent;
-        const className = availablePercentage  >= 30 && availablePercentage <= 100
+        const { classes, } = this.props;
+        const { filledPercentage, totalPlaces, availablePlaces } = getAvailablePlacesForParking(parking);
+        const className = filledPercentage  >= 0 && filledPercentage < 70
             ? classes.green
-            :  availablePercentage  >= 10 && availablePercentage < 30
+            :  filledPercentage  >= 70 && filledPercentage < 90
                 ? classes.orange
                 : classes.red;
         return <TableRow key={parking.id}  className={classes.parkingRow} onClick={this.rowClickHandler(parking.id)}>
@@ -65,7 +65,8 @@ class ParkingsPage extends Component {
                 {parking.title}
             </TableCell>
             <TableCell >{parking.location}</TableCell>
-            <TableCell className={className}>{availablePlaces} / {parking.places}</TableCell>
+            <TableCell className={className}>{ totalPlaces - availablePlaces} / {totalPlaces}</TableCell>
+            <TableCell className={className}> { filledPercentage } %</TableCell>
             <TableCell >{parking.price}</TableCell>
         </TableRow>
     };
@@ -88,7 +89,8 @@ class ParkingsPage extends Component {
                                 <TableCell className={classes.headerText}>Title</TableCell>
                                 <TableCell className={classes.headerText}>Location</TableCell>
                                 <TableCell className={classes.headerText}>Parking places (available / total)</TableCell>
-                                <TableCell className={classes.headerText}>Price</TableCell>
+                                <TableCell className={classes.headerText}>Loading, %</TableCell>
+                                <TableCell className={classes.headerText}>Price, UAH</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
