@@ -66,7 +66,7 @@ class ParkingsPage extends Component {
             </TableCell>
             <TableCell >{parking.location}</TableCell>
             <TableCell className={className}>{ totalPlaces - availablePlaces} / {totalPlaces}</TableCell>
-            <TableCell className={className}> { filledPercentage } %</TableCell>
+            <TableCell className={className}> { Math.floor(filledPercentage) } %</TableCell>
             <TableCell >{parking.price}</TableCell>
         </TableRow>
     };
