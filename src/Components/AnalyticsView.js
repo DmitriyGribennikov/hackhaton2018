@@ -22,7 +22,11 @@ const styles = theme => ({
 class AnalyticsView extends Component {
 
     componentDidMount() {
-        this.props.fetchSessions()
+        this.timer = setInterval(()=> this.props.fetchSessions(), 3000);
+    }
+
+    componentWillUnmount() {
+        this.timer = null;
     }
 
 
@@ -34,8 +38,6 @@ class AnalyticsView extends Component {
             className={classes.root}
             direction='row'
             justify='center'
-
-
         >
             <Grid item xs={11}>
                 <MainInfo

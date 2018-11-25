@@ -32,8 +32,8 @@ export const getAvailablePlacesForAllParkings = (store) => {
         return {
             availablePlaces: acc.availablePlaces + parkingInfo.availablePlaces,
             totalPlaces: acc.totalPlaces + parkingInfo.totalPlaces,
-            availablePercentage: (acc.availablePercentage + parkingInfo.availablePercentage) / 2,
-            filledPercentage: (acc.filledPercentage + parkingInfo.filledPercentage) / 2,
+            availablePercentage: Math.floor((acc.availablePercentage + parkingInfo.availablePercentage) / 2),
+            filledPercentage: Math.floor((acc.filledPercentage + parkingInfo.filledPercentage) / 2),
         }
     }, {
         availablePlaces: 0,
